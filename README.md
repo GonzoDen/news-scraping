@@ -19,16 +19,16 @@
 Clone the repo and install the dependencies:
 
 ```bash
-git  clone  https://github.com/contentful/the-example-app.nodejs.git
-cd  the-example-app.nodejs
+git clone git@github.com:ZulianTiger/news-scraping.git
+cd news-scraping
 ```
 
 ```bash
-npm  install
+npm install
 ```
 
 Start the node server:
 
 ```bash
-npm  start
+npm start
 ```
