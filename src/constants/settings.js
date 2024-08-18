@@ -2,7 +2,7 @@ const START_PAGE_INDEX = 1;
 
 const PAGE_WAIT_UNTIL = "networkidle0";
 
-const PAGE_TIMEOUT = 60000;
+const PAGE_TIMEOUT = 120000;
 
 module.exports = {
   START_PAGE_INDEX,
