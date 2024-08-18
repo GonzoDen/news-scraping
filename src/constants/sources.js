@@ -1,5 +1,6 @@
 const PODROBNO_SOURCE = {
   baseUrl: "https://podrobno.uz/",
+  //searchQuery: "search/?tags=&q=найдено+тело+женщины&how=r&PAGEN_1=",
   searchQuery: "search/?tags=&q=найдено+тело+женщины&how=r&PAGEN_1=",
   searchSuffix: "",
   numberOfPages: 3,
@@ -55,7 +56,7 @@ const NUZ_SOURCE = {
   baseUrl: "https://nuz.uz/",
   searchQuery: "page/",
   searchSuffix: "?s=убита",
-  numberOfPages: 5,
+  numberOfPages: 1,
   loadedElement: ".tdc-content-wrap",
   dataContainer: ".tdb_module_loop",
   linkSelector: "div > .td-module-meta-info > h3 > a",
