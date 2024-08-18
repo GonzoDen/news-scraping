@@ -5,10 +5,6 @@ const {
   PAGE_TIMEOUT,
 } = require("./constants/settings");
 const {
-  //   PODROBNO_SOURCE: source,
-  //   KUNUZ_SOURCE: source,
-  //   GAZETA_SOURCE: source,
-  //   UZNEWS_SOURCE: source,
   NUZ_SOURCE: source,
 } = require("./constants/sources");
 
@@ -34,24 +30,31 @@ const scraperObject = {
       });
       await page.waitForSelector(loadedElement);
 
-      let result = await page.$$eval(dataContainer, (results) => {
-        let data = {};
+      let result = await page.$$eval(
+        dataContainer,
+        (results, linkSelector, titleSelector, dateSelector, descriptionSelector) => {
+          let data = {};
 
-        data["link"] = results.map(
-          (el) => el.querySelector(linkSelector)?.href || ""
-        );
-        data["title"] = results.map(
-          (el) => el.querySelector(titleSelector)?.textContent || ""
-        );
-        data["date"] = results.map(
-          (el) => el.querySelector(dateSelector)?.textContent || ""
-        );
-        data["short_description"] = results.map(
-          (el) => el.querySelector(descriptionSelector)?.textContent || ""
-        );
+          data["link"] = results.map(
+            (el) => el.querySelector(linkSelector)?.href || ""
+          );
+          data["title"] = results.map(
+            (el) => el.querySelector(titleSelector)?.textContent || ""
+          );
+          data["date"] = results.map(
+            (el) => el.querySelector(dateSelector)?.textContent || ""
+          );
+          data["short_description"] = results.map(
+            (el) => el.querySelector(descriptionSelector)?.textContent || ""
+          );
 
-        return data;
-      });
+          return data;
+        },
+        linkSelector, // Pass the selectors to the $$eval function
+        titleSelector,
+        dateSelector,
+        descriptionSelector
+      );
 
       resultData.push(result);
       page.close();
