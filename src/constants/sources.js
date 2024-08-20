@@ -95,13 +95,13 @@ const OZODLIK_SOURCE = {
   baseUrl: "https://rus.ozodlik.org/",
   searchQuery: "s?k=убита&tab=all&pi=",
   searchSuffix: "",
-  numberOfPages: 3,
+  numberOfPages: 1,
   loadedElement: ".media-block-wrap",
-  dataContainer: "media-block",
-  linkSelector: '[href*="/cat/"]',
-  titleSelector: '[href*="/cat/"]',
-  dateSelector: "smdate date--mb date--size-all", // More specific selector for the date
-  descriptionSelector: "p", // More specific selector for the description
+  dataContainer: ".media-block",
+  linkSelector: ".media-block > a",
+  titleSelector: ".media-block__content .media-block__title",
+  dateSelector: ".media-block__content .date",
+  descriptionSelector: "" // No description found in the provided HTML
 };
 
 
@@ -130,4 +130,5 @@ module.exports = {
   GAZETA_SOURCE,
   UZNEWS_SOURCE,
   NUZ_SOURCE,
+  OZODLIK_SOURCE
 };

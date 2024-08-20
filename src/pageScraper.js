@@ -69,6 +69,8 @@ module.exports = scraperObject;
 
 
 
+//loses date, records only first row
+
 const { getPaginatedUrl } = require("./helpers/page");
 const {
   START_PAGE_INDEX,
@@ -77,7 +79,8 @@ const {
 } = require("./constants/settings");
 
 const {
-  KUNUZ_SOURCE: source,
+  OZODLIK_SOURCE: source
+  //KUNUZ_SOURCE: source,
   //GAZETA_SOURCE: source,
   //UZNEWS_SOURCE: source,
   //PODROBNO_SOURCE: source,
@@ -95,7 +98,7 @@ const scraperObject = {
       linkSelector,
       titleSelector,
       dateSelector,
-      descriptionSelector,
+      //descriptionSelector,
     } = source;
 
     for (let i = START_PAGE_INDEX; i <= numberOfPages; i++) {
@@ -114,7 +117,7 @@ const scraperObject = {
             link: [],
             title: [],
             date: [],
-            short_description: []
+            //short_description: []
           };
 
           const articles = container.querySelectorAll('a'); // Adjust this if needed based on the actual structure
@@ -123,7 +126,7 @@ const scraperObject = {
             data.link.push(article.href || "");
             data.title.push(article.querySelector(titleSelector)?.textContent || "");
             data.date.push(article.querySelector(dateSelector)?.textContent || "");
-            data.short_description.push(article.querySelector(descriptionSelector)?.textContent || "");
+            //data.short_description.push(article.querySelector(descriptionSelector)?.textContent || "");
           });
 
           return data;
@@ -131,7 +134,7 @@ const scraperObject = {
         linkSelector, // Pass the selectors to the $eval function
         titleSelector,
         dateSelector,
-        descriptionSelector
+        //descriptionSelector
       );
 
       resultData.push(result);
@@ -142,7 +145,7 @@ const scraperObject = {
       link: resultData.map((item) => item.link).flat(),
       title: resultData.map((item) => item.title).flat(),
       date: resultData.map((item) => item.date).flat(),
-      short_description: resultData.map((item) => item.short_description).flat(),
+      //short_description: resultData.map((item) => item.short_description).flat(),
     };
   },
 };
@@ -150,9 +153,27 @@ const scraperObject = {
 module.exports = scraperObject;
 
 
+/*
 //Scraping PODROBNO
 //TODO: dates, description
-/*const scraperObject = {
+//loses everything
+const { getPaginatedUrl } = require("./helpers/page");
+const {
+  START_PAGE_INDEX,
+  PAGE_WAIT_UNTIL,
+  PAGE_TIMEOUT,
+} = require("./constants/settings");
+
+const {
+  OZODLIK_SOURCE: source
+  //KUNUZ_SOURCE: source,
+  //GAZETA_SOURCE: source,
+  //UZNEWS_SOURCE: source,
+  //PODROBNO_SOURCE: source,
+  //NUZ_SOURCE: source,
+} = require("./constants/sources");
+
+const scraperObject = {
   async scraper(browser) {
     const resultData = [];
     const {
@@ -162,7 +183,7 @@ module.exports = scraperObject;
       linkSelector,
       titleSelector,
       dateSelector,
-      descriptionSelector,
+      //descriptionSelector,
     } = source;
 
     for (let i = 1; i <= numberOfPages; i++) {
@@ -182,7 +203,7 @@ module.exports = scraperObject;
               link: [],
               title: [],
               date: [],
-              short_description: []
+              //short_description: []
             };
 
             const articles = container.querySelectorAll(linkSelector);
@@ -190,14 +211,14 @@ module.exports = scraperObject;
             articles.forEach(article => {
               const href = article.href;
               const title = article.textContent.trim();
-              const description = article.querySelector(descriptionSelector)?.textContent.trim() || "No description found";
+              //const description = article.querySelector(descriptionSelector)?.textContent.trim() || "No description found";
               const date = article.querySelector(dateSelector)?.textContent.trim() || "No date found";
 
               if (href && href.includes('/cat/') && !href.includes('search')) {
                 data.link.push(href);
                 data.title.push(title);
                 data.date.push(date);
-                data.short_description.push(description);
+                //data.short_description.push(description);
               }
             });
 
@@ -206,7 +227,7 @@ module.exports = scraperObject;
           linkSelector,
           titleSelector,
           dateSelector,
-          descriptionSelector
+          //descriptionSelector
         );
 
         resultData.push(result);
@@ -222,7 +243,7 @@ module.exports = scraperObject;
       link: resultData.flatMap((item) => item.link),
       title: resultData.flatMap((item) => item.title),
       date: resultData.flatMap((item) => item.date),
-      short_description: resultData.flatMap((item) => item.short_description),
+      //short_description: resultData.flatMap((item) => item.short_description),
     };
   }
 };
