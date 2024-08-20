@@ -67,6 +67,8 @@ const scraperObject = {
 module.exports = scraperObject;
 */
 
+
+
 const { getPaginatedUrl } = require("./helpers/page");
 const {
   START_PAGE_INDEX,
@@ -75,14 +77,15 @@ const {
 } = require("./constants/settings");
 
 const {
-  //KUNUZ_SOURCE: source,
+  KUNUZ_SOURCE: source,
   //GAZETA_SOURCE: source,
   //UZNEWS_SOURCE: source,
-  PODROBNO_SOURCE: source,
+  //PODROBNO_SOURCE: source,
   //NUZ_SOURCE: source,
 } = require("./constants/sources");
 
-/*const scraperObject = {
+
+const scraperObject = {
   async scraper(browser) {
     const resultData = [];
     const {
@@ -145,10 +148,11 @@ const {
 };
 
 module.exports = scraperObject;
-*/
+
 
 //Scraping PODROBNO
-const scraperObject = {
+//TODO: dates, description
+/*const scraperObject = {
   async scraper(browser) {
     const resultData = [];
     const {
@@ -161,13 +165,13 @@ const scraperObject = {
       descriptionSelector,
     } = source;
 
-    for (let i = START_PAGE_INDEX; i <= numberOfPages; i++) {
+    for (let i = 1; i <= numberOfPages; i++) {
       let page = await browser.newPage();
 
       try {
-        await page.goto(getPaginatedUrl(source, i), {
-          waitUntil: PAGE_WAIT_UNTIL,
-          timeout: PAGE_TIMEOUT,
+        await page.goto(`${source.baseUrl}${source.searchQuery}${i}`, {
+          waitUntil: "networkidle2",
+          timeout: 30000,
         });
         await page.waitForSelector(loadedElement);
 
@@ -186,16 +190,8 @@ const scraperObject = {
             articles.forEach(article => {
               const href = article.href;
               const title = article.textContent.trim();
-
-              // Ensure we're only trying to access these elements if they exist
-              const hrElement = article.closest('hr');
-              let description = '';
-              let date = '';
-
-              if (hrElement && hrElement.previousElementSibling) {
-                description = hrElement.previousElementSibling.querySelector(descriptionSelector)?.textContent.trim() || '';
-                date = hrElement.previousElementSibling.querySelector(dateSelector)?.textContent.trim() || '';
-              }
+              const description = article.querySelector(descriptionSelector)?.textContent.trim() || "No description found";
+              const date = article.querySelector(dateSelector)?.textContent.trim() || "No date found";
 
               if (href && href.includes('/cat/') && !href.includes('search')) {
                 data.link.push(href);
@@ -221,13 +217,15 @@ const scraperObject = {
       }
     }
 
+    // Flatten the result arrays to return a single array of links, titles, dates, and descriptions
     return {
-      link: resultData.map((item) => item.link).flat(),
-      title: resultData.map((item) => item.title).flat(),
-      date: resultData.map((item) => item.date).flat(),
-      short_description: resultData.map((item) => item.short_description).flat(),
+      link: resultData.flatMap((item) => item.link),
+      title: resultData.flatMap((item) => item.title),
+      date: resultData.flatMap((item) => item.date),
+      short_description: resultData.flatMap((item) => item.short_description),
     };
-  },
+  }
 };
 
 module.exports = scraperObject;
+*/

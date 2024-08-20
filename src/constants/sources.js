@@ -8,27 +8,31 @@ const PODROBNO_SOURCE = {
   dataContainer: ".search-page",
   linkSelector: '[href*="/cat/"]',
   titleSelector: '[href*="/cat/"]',
-  dateSelector: ".content-block small", // More specific selector for the date
-  descriptionSelector: ".content-block p", // More specific selector for the description
+  dateSelector: "small", // More specific selector for the date
+  descriptionSelector: "p", // More specific selector for the description
 };
 
-
-/* Server started on port 3000
-Could not resolve the browser instance =>  TimeoutError: Waiting for selector `.outer-wrapper` failed: Waiting failed: 30000ms exceeded
-    at Timeout.<anonymous> (/Users/gonzoden/Documents/Pogrommirovanie/news-scraping/node_modules/puppeteer-core/lib/cjs/puppeteer/common/WaitTask.js:59:37)
-    at listOnTimeout (node:internal/timers:581:17)
-    at process.processTimers (node:internal/timers:519:7) */
 const KUNUZ_SOURCE = {
   baseUrl: "https://kun.uz/",
-  searchQuery: "ru/news/search?q=убита&page=",
+  //searchQuery: "ru/news/search?q=убита&page=",
+  //searchQuery: "ru/news/search?q=найдено+тело+женщины&page=",
+  //searchQuery: "ru/news/search?q=скончалась&page=",
+  //searchQuery: "ru/news/search?q=погибла&page=",
+  //searchQuery: "ru/news/search?q=труп+женщины&page=",
+  //searchQuery: "ru/news/search?q=смерти+избил&page=",
+  //searchQuery: "ru/news/search?q=скончалась+от+полученных+травм&page=",
+  //searchQuery: "ru/news/search?q=убийство+женщины&page=",
+  //searchQuery: "ru/news/search?q=изнасилование+женщины&page=",
+  //searchQuery: "ru/news/search?q=изнасилование+девушки&page=",
+  searchQuery: "ru/news/search?q=умерла&page=",
   searchSuffix: "",
   numberOfPages: 1,
-  loadedElement: ".outer-wrapper",
-  dataContainer: ".news",
-  linkSelector: ".news__title",
-  titleSelector: ".news__title",
-  dateSelector: ".news-meta > span",
-  descriptionSelector: "",
+  loadedElement: ".news-inner__block",  
+  dataContainer: "#news-list",  
+  linkSelector: ".small-cards__default-item",  
+  titleSelector: ".small-cards__default-text", 
+  dateSelector: ".gray-date > p",  
+  descriptionSelector: ".small-cards__default-text",  
 };
 
 
@@ -86,6 +90,39 @@ const NUZ_SOURCE = {
     "div > .td-module-meta-info > .td-editor-date > span > span > time",
   descriptionSelector: "div > .td-module-meta-info > .td-excerpt",
 };
+
+const OZODLIK_SOURCE = {
+  baseUrl: "https://rus.ozodlik.org/",
+  searchQuery: "s?k=убита&tab=all&pi=",
+  searchSuffix: "",
+  numberOfPages: 3,
+  loadedElement: ".media-block-wrap",
+  dataContainer: "media-block",
+  linkSelector: '[href*="/cat/"]',
+  titleSelector: '[href*="/cat/"]',
+  dateSelector: "smdate date--mb date--size-all", // More specific selector for the date
+  descriptionSelector: "p", // More specific selector for the description
+};
+
+
+/*
+//todo: UZBEK keywords
+const DARYO_SOURCE = {
+  baseUrl: "https://daryo.uz/",
+  searchQuery: "page/",
+  searchSuffix: "?s=убита",
+  numberOfPages: 1,
+  loadedElement: ".tdc-content-wrap",
+  dataContainer: ".tdb_module_loop",
+  linkSelector: "div > .td-module-meta-info > h3 > a",
+  titleSelector: "div > .td-module-meta-info > h3 > a",
+  dateSelector:
+    "div > .td-module-meta-info > .td-editor-date > span > span > time",
+  descriptionSelector: "div > .td-module-meta-info > .td-excerpt",
+};
+*/
+
+
 
 module.exports = {
   PODROBNO_SOURCE,
