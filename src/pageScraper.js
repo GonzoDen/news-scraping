@@ -5,7 +5,7 @@ const {
   PAGE_TIMEOUT,
 } = require("./constants/settings");
 const {
-  NUZ_SOURCE: source,
+  DARAKCHI_SOURCE: source,
 } = require("./constants/sources");
 
 const scraperObject = {
@@ -18,7 +18,7 @@ const scraperObject = {
       linkSelector,
       titleSelector,
       dateSelector,
-      descriptionSelector,
+      //descriptionSelector,
     } = source;
 
     for (let i = START_PAGE_INDEX; i <= numberOfPages; i++) {
@@ -32,7 +32,7 @@ const scraperObject = {
 
       let result = await page.$$eval(
         dataContainer,
-        (results, linkSelector, titleSelector, dateSelector, descriptionSelector) => {
+        (results, linkSelector, titleSelector, dateSelector) => {
           let data = {};
 
           data["link"] = results.map(
@@ -44,16 +44,18 @@ const scraperObject = {
           data["date"] = results.map(
             (el) => el.querySelector(dateSelector)?.textContent || ""
           );
+          /*
           data["short_description"] = results.map(
             (el) => el.querySelector(descriptionSelector)?.textContent || ""
           );
+          */
 
           return data;
         },
         linkSelector, // Pass the selectors to the $$eval function
         titleSelector,
         dateSelector,
-        descriptionSelector
+        //descriptionSelector
       );
 
       resultData.push(result);
@@ -64,9 +66,11 @@ const scraperObject = {
       link: resultData.map((item) => item.link).flat(),
       title: resultData.map((item) => item.title).flat(),
       date: resultData.map((item) => item.date).flat(),
+      /*
       short_description: resultData
         .map((item) => item.short_description)
         .flat(),
+        */
     };
   },
 };
