@@ -66,10 +66,35 @@ const NUZ_SOURCE = {
   descriptionSelector: "div > .td-module-meta-info > .td-excerpt",
 };
 
+const ANHOR_SOURCE = {
+  baseUrl: "https://anhor.uz/",
+  searchQuery: "page/",
+  //searchSuffix: "/?s=убита",
+  //searchSuffix: "/?s=найдено+тело+женщины",
+  //searchSuffix: "/?s=скончалась",
+  //searchSuffix: "/?s=погибла",
+  //searchSuffix: "/?s=труп+женщины",
+  //searchSuffix: "/?s=смерти+избил",
+  //searchSuffix: "/?s=скончалась+от+полученных+травм",
+  //searchSuffix: "/?s=убийство+женщины",
+  //searchSuffix: "/?s=изнасилование+женщины",
+  //searchSuffix: "/?s=изнасилование+девушки",
+  searchSuffix: "/?s=умерла",
+  numberOfPages: 3,
+  loadedElement: ".posts-list", // The main container that ensures the page is fully loaded
+  dataContainer: ".posts-list__item", // Each news item is inside an <article> element with class "posts-list__item"
+  linkSelector: ".posts-list__head-link", // The <a> tag inside the <h3> tag containing the link to the news article
+  titleSelector: ".posts-list__head-link", // The same <a> tag inside the <h3> for extracting the title
+  dateSelector: ".posts-list__date", // The <span> element inside the .posts-list__cat-links div for the date
+  descriptionSelector: ".posts-list__excerpt", // The <div> with class "posts-list__excerpt" containing the description
+};
+
+
 module.exports = {
   PODROBNO_SOURCE,
   KUNUZ_SOURCE,
   GAZETA_SOURCE,
   UZNEWS_SOURCE,
   NUZ_SOURCE,
+  ANHOR_SOURCE
 };
