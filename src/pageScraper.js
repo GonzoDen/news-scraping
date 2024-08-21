@@ -1,16 +1,20 @@
+//duplicates the date and description
+
 const { getPaginatedUrl } = require("./helpers/page");
 const {
   START_PAGE_INDEX,
   PAGE_WAIT_UNTIL,
   PAGE_TIMEOUT,
 } = require("./constants/settings");
+
 const {
-  NUZ_SOURCE: source,
+  PODROBNO_SOURCE: source,
 } = require("./constants/sources");
 
 const scraperObject = {
   async scraper(browser) {
     const resultData = [];
+
     const {
       numberOfPages,
       loadedElement,
@@ -24,51 +28,126 @@ const scraperObject = {
     for (let i = START_PAGE_INDEX; i <= numberOfPages; i++) {
       let page = await browser.newPage();
 
-      await page.goto(getPaginatedUrl(source, i), {
-        waitUntil: PAGE_WAIT_UNTIL,
-        timeout: PAGE_TIMEOUT,
-      });
-      await page.waitForSelector(loadedElement);
+      try {
+        await page.goto(getPaginatedUrl(source, i), {
+          waitUntil: PAGE_WAIT_UNTIL,
+          timeout: PAGE_TIMEOUT,
+        });
+        await page.waitForSelector(loadedElement);
 
-      let result = await page.$$eval(
-        dataContainer,
-        (results, linkSelector, titleSelector, dateSelector, descriptionSelector) => {
-          let data = {};
+        // Scrape all articles in the dataContainer
+        let articles = await page.$$eval(
+          `${dataContainer} a${linkSelector}`,
+          (links, titleSelector, dateSelector, descriptionSelector) => {
+            return links.map(link => {
+              const container = link.closest("div.search-page");
+              return {
+                link: link.href,
+                title: link.textContent.trim(),
+                date: container.querySelector(dateSelector)?.textContent,
+                short_description: container.querySelector(descriptionSelector)?.textContent,
+              };
+            });
+          },
+          titleSelector,
+          dateSelector,
+          descriptionSelector
+        );
 
-          data["link"] = results.map(
-            (el) => el.querySelector(linkSelector)?.href || ""
-          );
-          data["title"] = results.map(
-            (el) => el.querySelector(titleSelector)?.textContent || ""
-          );
-          data["date"] = results.map(
-            (el) => el.querySelector(dateSelector)?.textContent || ""
-          );
-          data["short_description"] = results.map(
-            (el) => el.querySelector(descriptionSelector)?.textContent || ""
-          );
-
-          return data;
-        },
-        linkSelector, // Pass the selectors to the $$eval function
-        titleSelector,
-        dateSelector,
-        descriptionSelector
-      );
-
-      resultData.push(result);
-      page.close();
+        resultData.push(...articles);
+      } catch (err) {
+        console.error(`Error scraping page ${i}: ${err.message}`);
+      } finally {
+        await page.close();
+      }
     }
 
     return {
-      link: resultData.map((item) => item.link).flat(),
-      title: resultData.map((item) => item.title).flat(),
-      date: resultData.map((item) => item.date).flat(),
-      short_description: resultData
-        .map((item) => item.short_description)
-        .flat(),
+      link: resultData.map(item => item.link),
+      title: resultData.map(item => item.title),
+      date: resultData.map(item => item.date),
+      short_description: resultData.map(item => item.short_description),
     };
-  },
+  }
 };
 
 module.exports = scraperObject;
+
+/*
+
+const { getPaginatedUrl } = require("./helpers/page");
+const {
+  START_PAGE_INDEX,
+  PAGE_WAIT_UNTIL,
+  PAGE_TIMEOUT,
+} = require("./constants/settings");
+
+const {
+  PODROBNO_SOURCE: source,
+} = require("./constants/sources");
+
+const scraperObject = {
+  async scraper(browser) {
+    const resultData = [];
+
+    const {
+      numberOfPages,
+      loadedElement,
+      dataContainer,
+      linkSelector,
+      titleSelector,
+      dateSelector,
+      descriptionSelector,
+    } = source;
+
+    for (let i = START_PAGE_INDEX; i <= numberOfPages; i++) {
+      let page = await browser.newPage();
+
+      try {
+        await page.goto(getPaginatedUrl(source, i), {
+          waitUntil: PAGE_WAIT_UNTIL,
+          timeout: PAGE_TIMEOUT,
+        });
+        await page.waitForSelector(loadedElement);
+
+        // Scrape all articles in the dataContainer
+        let articles = await page.$$eval(
+          `${dataContainer} a${linkSelector}`,
+          (links, titleSelector, dateSelector, descriptionSelector) => {
+            
+            return links.map(link => {
+              const container = link.closest("div.search-page");
+              const dateElement = Array.from(container.querySelectorAll(dateSelector))
+                .find(el => el.textContent.includes("Изменен"))
+              return {
+                link: link.href,
+                title: link.textContent.trim(),
+                date: dateElement ? dateElement.textContent.replace("Изменен: ", "").trim() : null,
+                short_description: container.querySelector(descriptionSelector)?.textContent.trim(),
+              };
+            });
+          },
+          titleSelector,
+          dateSelector,
+          descriptionSelector
+        );
+
+        resultData.push(...articles);
+      } catch (err) {
+        console.error(`Error scraping page ${i}: ${err.message}`);
+      } finally {
+        await page.close();
+      }
+    }
+
+    return {
+      link: resultData.map(item => item.link),
+      title: resultData.map(item => item.title),
+      date: resultData.map(item => item.date),
+      short_description: resultData.map(item => item.short_description),
+    };
+  }
+};
+
+module.exports = scraperObject;
+*/
