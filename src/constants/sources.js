@@ -66,10 +66,35 @@ const NUZ_SOURCE = {
   descriptionSelector: "div > .td-module-meta-info > .td-excerpt",
 };
 
+const OZODLIK_SOURCE = {
+  baseUrl: "https://rus.ozodlik.org/",
+  //searchQuery: "s?k=убита&tab=all&pi=",
+  //searchQuery: "s?k=найдено+тело+женщины&tab=all&pi=",
+  //searchQuery: "s?k=скончалась&tab=all&pi=",
+  //searchQuery: "s?k=погибла&tab=all&pi=",
+  //searchQuery: "s?k=труп+женщины&tab=all&pi=",
+  //searchQuery: "s?k=смерти+избил&tab=all&pi=",
+  //searchQuery: "s?k=скончалась+от+полученных+травм&tab=all&pi=",
+  //searchQuery: "s?k=убийство+женщины&tab=all&pi=",
+  //searchQuery: "s?k=изнасилование+женщины&tab=all&pi=",
+  //searchQuery: "s?k=изнасилование+девушки&tab=all&pi=",
+  searchQuery: "s?k=умерла&tab=all&pi=",
+  searchSuffix: "",
+  numberOfPages: 28,
+  loadedElement: ".media-block-wrap",
+  dataContainer: ".media-block",
+  linkSelector: ".media-block > a",
+  titleSelector: ".media-block__content .media-block__title",
+  dateSelector: ".media-block__content .date",
+  descriptionSelector: ".media-block__content .perex" 
+};
+
+
 module.exports = {
   PODROBNO_SOURCE,
   KUNUZ_SOURCE,
   GAZETA_SOURCE,
   UZNEWS_SOURCE,
   NUZ_SOURCE,
+  OZODLIK_SOURCE
 };
