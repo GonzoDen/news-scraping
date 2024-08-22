@@ -66,10 +66,35 @@ const NUZ_SOURCE = {
   descriptionSelector: "div > .td-module-meta-info > .td-excerpt",
 };
 
+const SPUTNIK_SOURCE = {
+  baseUrl: "https://uz.sputniknews.ru/",
+  //searchQuery: "search/?query=убита", 
+  //searchQuery: "search/?query=найдено+тело+женщины", 
+  //searchQuery: "search/?query=скончалась", 
+  //searchQuery: "search/?query=погибла", 
+  //searchQuery: "search/?query=труп+женщины", 
+  //searchQuery: "search/?query=смерти+избил", 
+  //searchQuery: "search/?query=скончалась+от+полученных+травм", 
+  //searchQuery: "search/?query=убийство+женщины", 
+  //searchQuery: "search/?query=изнасилование+женщины", 
+  //searchQuery: "search/?query=изнасилование+девушки", 
+  searchQuery: "search/?query=умерла", 
+  searchSuffix: "",
+  numberOfPages: 1,  // Adjust based on how many pages you want to scrape
+  loadedElement: ".list.list-search", // The main container that ensures the page is fully loaded
+  dataContainer: ".list__item", // Each news item is inside the <div> with class "list__item"
+  linkSelector: ".list__title", // The <a> tag with class "list__title" containing the link to the news article
+  titleSelector: ".list__title", // The same <a> tag with class "list__title" for extracting the title
+  dateSelector: ".list__date .date", // The <span> element inside the .list__date div for the date
+  //descriptionSelector: null, // There doesn't seem to be a description element in the provided HTML
+};
+
+
 module.exports = {
   PODROBNO_SOURCE,
   KUNUZ_SOURCE,
   GAZETA_SOURCE,
   UZNEWS_SOURCE,
   NUZ_SOURCE,
+  SPUTNIK_SOURCE,
 };
