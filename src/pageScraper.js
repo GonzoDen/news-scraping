@@ -5,7 +5,7 @@ const {
   PAGE_TIMEOUT,
 } = require("./constants/settings");
 const {
-  NUZ_SOURCE: source,
+  DARYO_SOURCE: source,
 } = require("./constants/sources");
 
 const scraperObject = {

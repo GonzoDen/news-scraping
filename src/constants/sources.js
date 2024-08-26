@@ -66,10 +66,24 @@ const NUZ_SOURCE = {
   descriptionSelector: "div > .td-module-meta-info > .td-excerpt",
 };
 
+const DARYO_SOURCE = {
+  baseUrl: "https://daryo.uz/",
+  searchQuery: "ru/search?q=скончалась&type=news&date=2024-8-22+23%3A57%3A23",  
+  searchSuffix: "",
+  numberOfPages: 1,  
+  loadedElement: ".loop.loop-grid", 
+  dataContainer: "article.l-post", 
+  linkSelector: "h2.is-title > a", 
+  titleSelector: "h2.is-title > a", 
+  dateSelector: ".post-meta-items .date-link .post-date", 
+  descriptionSelector: ".excerpt", 
+};
+
 module.exports = {
   PODROBNO_SOURCE,
   KUNUZ_SOURCE,
   GAZETA_SOURCE,
   UZNEWS_SOURCE,
   NUZ_SOURCE,
+  DARYO_SOURCE,
 };
