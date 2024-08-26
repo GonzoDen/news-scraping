@@ -1,15 +1,25 @@
 //scrapes only the first article, skips all others, but 3 pages are read with no problems
 const PODROBNO_SOURCE = {
   baseUrl: "https://podrobno.uz/",
-  searchQuery: "search/?tags=&q=найдено+тело+женщины&how=r&PAGEN_1=",
+  //searchQuery: "search/?tags=&q=убита&how=d&PAGEN_1=",
+  //searchQuery: "search/?tags=&q=найдено+тело+женщины&how=d&PAGEN_1=",
+  //searchQuery: "search/?tags=&q=скончалась&how=d&PAGEN_1=",
+  //searchQuery: "search/?tags=&q=погибла&how=d&PAGEN_1=",
+  //searchQuery: "search/?tags=&q=труп+женщины&how=d&PAGEN_1=",
+  //searchQuery: "search/?tags=&q=смерти+избил&how=d&PAGEN_1=",
+  //searchQuery: "search/?tags=&q=скончалась+от+полученных+травм&how=d&PAGEN_1=",
+  //searchQuery: "search/?tags=&q=убийство+женщины&how=d&PAGEN_1=",
+  //searchQuery: "search/?tags=&q=изнасилование+женщины&how=d&PAGEN_1=",
+  //searchQuery: "search/?tags=&q=изнасилование+девушки&how=d&PAGEN_1=",
+  searchQuery: "search/?tags=&q=умерла&how=d&PAGEN_1=",
   searchSuffix: "",
-  numberOfPages: 3,
+  numberOfPages: 2,
   loadedElement: ".content-block",
   dataContainer: ".search-page",
   linkSelector: '[href*="/cat/"]',
   titleSelector: '[href*="/cat/"]',
-  dateSelector: "small", // More specific selector for the date
-  descriptionSelector: "p", // More specific selector for the description
+  //dateSelector: "small", // More specific selector for the date
+  //descriptionSelector: "p", // More specific selector for the description
 };
 
 const KUNUZ_SOURCE = {

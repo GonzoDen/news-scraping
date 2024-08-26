@@ -68,7 +68,7 @@ module.exports = scraperObject;
 */
 
 
-
+/*
 const { getPaginatedUrl } = require("./helpers/page");
 const {
   START_PAGE_INDEX,
@@ -148,11 +148,27 @@ const scraperObject = {
 };
 
 module.exports = scraperObject;
-
+*/
 
 //Scraping PODROBNO
 //TODO: dates, description
-/*const scraperObject = {
+
+const { getPaginatedUrl } = require("./helpers/page");
+const {
+  START_PAGE_INDEX,
+  PAGE_WAIT_UNTIL,
+  PAGE_TIMEOUT,
+} = require("./constants/settings");
+
+const {
+  //KUNUZ_SOURCE: source,
+  //GAZETA_SOURCE: source,
+  //UZNEWS_SOURCE: source,
+  PODROBNO_SOURCE: source,
+  //NUZ_SOURCE: source,
+} = require("./constants/sources");
+
+const scraperObject = {
   async scraper(browser) {
     const resultData = [];
     const {
@@ -161,8 +177,8 @@ module.exports = scraperObject;
       dataContainer,
       linkSelector,
       titleSelector,
-      dateSelector,
-      descriptionSelector,
+      //dateSelector,
+      //descriptionSelector,
     } = source;
 
     for (let i = 1; i <= numberOfPages; i++) {
@@ -177,12 +193,12 @@ module.exports = scraperObject;
 
         let result = await page.$eval(
           dataContainer,
-          (container, linkSelector, titleSelector, dateSelector, descriptionSelector) => {
+          (container, linkSelector, titleSelector) => {
             let data = {
               link: [],
               title: [],
-              date: [],
-              short_description: []
+              //date: [],
+              //short_description: []
             };
 
             const articles = container.querySelectorAll(linkSelector);
@@ -190,14 +206,14 @@ module.exports = scraperObject;
             articles.forEach(article => {
               const href = article.href;
               const title = article.textContent.trim();
-              const description = article.querySelector(descriptionSelector)?.textContent.trim() || "No description found";
-              const date = article.querySelector(dateSelector)?.textContent.trim() || "No date found";
+              //const description = article.querySelector(descriptionSelector)?.textContent.trim() || "No description found";
+              //const date = article.querySelector(dateSelector)?.textContent.trim() || "No date found";
 
               if (href && href.includes('/cat/') && !href.includes('search')) {
                 data.link.push(href);
                 data.title.push(title);
-                data.date.push(date);
-                data.short_description.push(description);
+                //data.date.push(date);
+                //data.short_description.push(description);
               }
             });
 
@@ -205,8 +221,8 @@ module.exports = scraperObject;
           },
           linkSelector,
           titleSelector,
-          dateSelector,
-          descriptionSelector
+          //dateSelector,
+          //descriptionSelector
         );
 
         resultData.push(result);
@@ -221,11 +237,10 @@ module.exports = scraperObject;
     return {
       link: resultData.flatMap((item) => item.link),
       title: resultData.flatMap((item) => item.title),
-      date: resultData.flatMap((item) => item.date),
-      short_description: resultData.flatMap((item) => item.short_description),
+      //date: resultData.flatMap((item) => item.date),
+      //short_description: resultData.flatMap((item) => item.short_description),
     };
   }
 };
 
 module.exports = scraperObject;
-*/
